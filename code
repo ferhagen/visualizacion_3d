@@ -1,0 +1,230 @@
+float r,b;
+float posx = 2;
+float dir = 0.2;
+float vel=1;
+Table tabla;
+PFont fuente12;
+PFont fuente18;
+PFont fuente25;
+PFont fuente20;
+PFont fuente70;
+PFont titulo;
+color c1 = color(204, 102, 0);
+color c2 = color(0, 102, 153);
+color interA = lerpColor(c1, c2, .50);
+color interB = lerpColor(c1, c2, .66);
+int vari=0;
+
+void setup() {
+  size(1920,1080,P3D); 
+  fuente12=loadFont("KohinoorBangla-Light-12.vlw");
+  fuente18=loadFont("KohinoorDevanagari-Regular-18.vlw");
+  fuente25=loadFont("KohinoorDevanagari-Semibold-25.vlw");
+  fuente20=loadFont("KohinoorDevanagari-Medium-20.vlw");
+  fuente70=loadFont("KohinoorDevanagari-Bold-70.vlw");  
+  smooth (1);
+ 
+ 
+  tabla = loadTable("becas-maestria.csv", "header"); //cargar encabezados
+  
+  println(tabla.getRowCount() + " filas totales en la tabla"); //contar cuantas filas tiene el csv
+  }
+  
+  void draw() {
+ lights();
+  camera(mouseX, mouseY, mouseX / tan(PI/12), width/2, height/2, 1, 0, 1, 0);
+  lightFalloff(1.0, 0.001, 0.0);
+  pointLight(150, 250, 150, 50, 50, 50);
+background(0); 
+   titulo ();
+  hombres (); 
+  mujeres ();
+  anos_mujeres ();
+  anos_hombres ();
+  aclaracion ();
+  icon ();
+
+  } 
+  void hombres () {
+ for (TableRow row : tabla.rows()) {   
+    
+    int id = row.getInt("id"); //cargar celda id
+    int fecha = row.getInt("Fecha"); //cargar celda fecha 
+    int hombres = row.getInt("Hombres"); // celda numero de hombres  
+    int mujeres = row.getInt("Mujeres"); //celda numero de mujeres 
+    float promediom = mujeres/9;
+    float promedioh = hombres/9;
+    float zoom = map(mouseX, 0, width, 0.1, 4.5);
+    float zoom2 = map(mouseY, 0, width, 0.1, 5.5);
+    float zoom3 = map(mouseY, 0, width, 0, 2.5);
+    
+    println(mujeres + " mujeres" + "("+ hombres +" hombres)  en " + fecha);
+  
+  pushMatrix();
+  translate(300+(200+hombres), 100+(70*id),5*(id*10)); 
+  //rotateY(zoom);
+  //rotateX(zoom2);
+  scale(zoom3);
+  fill(c1);
+  noStroke();
+  sphere(hombres/4);
+  //text HOMBRES
+  textFont(fuente70);
+  textSize(hombres/7);
+  fill(c1);
+  text(hombres,id*20,id*30);
+  popMatrix();
+}
+    
+  }
+  
+void mujeres () {
+ for (TableRow row : tabla.rows()) {   
+    
+    int id = row.getInt("id"); //cargar celda id
+    int fecha = row.getInt("Fecha"); //cargar celda fecha 
+    int hombres = row.getInt("Hombres"); // celda numero de hombres  
+    int mujeres = row.getInt("Mujeres"); //celda numero de mujeres 
+    float promediom = mujeres/9;
+    float promedioh = hombres/9;
+    float zoom = map(mouseX, 0, width, 0.1, 8.5);
+    float zoom2 = map(mouseY, 0, width, 0.1, 2.5);
+    float zoom3 = map(mouseY, 0, width, 0, 0.8);
+    
+    println(mujeres + " mujeres" + "("+ hombres +" hombres)  en " + fecha);
+  
+    pushMatrix();
+  translate(900-(40+hombres/2), 4+(70*id),6*(id*11)); 
+  scale(zoom3);
+  //rotateY(zoom);
+  //rotateX(zoom2);
+  fill(c2);
+  noStroke();
+  sphere(mujeres/4);
+  //text HOMBRES
+  textFont(fuente70);
+  textSize(mujeres/7);
+    fill(c2);
+  text(mujeres,id*30,id-10);
+
+  popMatrix();
+}
+    
+  }
+  
+void anos_mujeres (){
+for (TableRow row : tabla.rows()) {   
+    
+    int id = row.getInt("id"); //cargar celda id
+    int fecha = row.getInt("Fecha"); //cargar celda fecha 
+    int hombres = row.getInt("Hombres"); // celda numero de hombres  
+    int mujeres = row.getInt("Mujeres"); //celda numero de mujeres 
+    float promediom = mujeres/9;
+    float promedioh = hombres/9;
+  
+   //años
+  pushMatrix();  
+  stroke(200);
+  translate(940-(40+hombres/2), 4+(70*id),6*(id*12));
+  rotateX(PI/3);
+  //rotateY(PI/3);
+  textFont(fuente70);
+  fill(255,80);
+  textSize(hombres-mujeres+20);
+  text(fecha,20,30);
+  popMatrix(); 
+}
+}
+
+void anos_hombres (){
+for (TableRow row : tabla.rows()) {   
+    
+    int id = row.getInt("id"); //cargar celda id
+    int fecha = row.getInt("Fecha"); //cargar celda fecha 
+    int hombres = row.getInt("Hombres"); // celda numero de hombres  
+    int mujeres = row.getInt("Mujeres"); //celda numero de mujeres 
+    float promediom = mujeres/9;
+    float promedioh = hombres/9;
+  
+   //años
+  pushMatrix();  
+  stroke(200);
+  translate(320+(200+hombres), 100+(70*id),5*(id*15));
+  rotateX(PI/3);
+  //rotateY(PI/3);
+  textFont(fuente70);
+  fill(255,80);
+  textSize(hombres-mujeres+20);
+  text(fecha,20,30);
+  popMatrix(); 
+}
+}
+void titulo (){
+  //titulo grafica
+    fill(255);  
+    textFont(fuente70);
+    textSize(50);
+    textAlign(LEFT);
+    text ("Crédito y becas", -500,1000);
+    
+    fill(255); 
+    textFont(fuente70);
+    textSize(25);
+    textAlign(LEFT);
+    text ("Crédito para maestría según sexo del beneficiario", -300,1030);
+              
+    fill(255); 
+    textFont(fuente70);
+    textSize(50);
+    textAlign(LEFT);
+    text ("2004 - 2013*", -20,1080);
+  
+}
+
+void aclaracion () {
+  //TEXTO ACLARACION GRAFICA
+  pushMatrix();  
+  translate(400, 600,-10);
+  rotateY(PI/2*PI);
+  fill(255);        
+  textFont(fuente18);
+  text("*No se obtuvo información de becarios por sexo, correspondientes\n a apoyos del ICETEX para el periodo 2004 a 2007 y 2011 a 2013,\n y del Banco de la República en los años 2010 y 2013.\n En total hay 8.288  beneficiarios sin clasificar por sexo.", 0,0);
+  popMatrix ();
+}
+void icon () {
+  //hombres
+  pushMatrix();
+  translate(2700, 1000,0);
+  fill(c1);
+  noStroke();
+  sphere(50);
+  popMatrix ();
+  
+    //mujeres
+   pushMatrix();
+  translate(2700, 1200,50);
+  fill(c2);
+  noStroke();
+  sphere(50);
+  popMatrix ();
+  
+  //text hombre
+     pushMatrix();
+    translate(2780, 1010,0);
+     fill(255);  
+    textFont(fuente18);
+    textSize(50);
+    textAlign(LEFT);
+    text ("Hombres", 0,0);
+    popMatrix ();
+    
+    //text MUJERES
+  pushMatrix();
+    translate(2780, 1210,0);
+     fill(255);  
+    textFont(fuente18);
+    textSize(50);
+    textAlign(LEFT);
+    text ("Mujeres", 0,0);
+    popMatrix ();
+}
